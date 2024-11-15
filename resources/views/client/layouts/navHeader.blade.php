@@ -79,14 +79,16 @@
                                 <i class="fa fa-user me-2"></i> {{ Auth::user()->username }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                @if(Auth::user()->role_id != 3 )
                                 <a class="dropdown-item" href="{{route('admin.categories.index')}}">
-                                    Trang admin
+                                    Trang quản trị
                                 </a>
+                                @endif
                                 <a class="dropdown-item" href="{{route('client.getUpdate',Auth::user()->id)}}">
                                     Cập nhập thông tin
                                 </a>
                                 <a class="dropdown-item" href="{{route('logout')}}">
-                                    Logout
+                                    Đăng xuất
                                 </a>
                             </div>
                         </li>

@@ -78,6 +78,7 @@
                 </div>
 
             </li>
+            @if(Auth::user()->role_id === 1)
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base3">
                     <i class="fa fa-handshake"></i>
@@ -100,6 +101,7 @@
                 </div>
 
             </li>
+            @endif
             <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base4">
                     <i class="fa fa-comment"></i>

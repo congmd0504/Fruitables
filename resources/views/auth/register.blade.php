@@ -13,19 +13,19 @@
                 <input type="email" name="email" class="form-control" id="email" placeholder="Enter your email" value="{{old('email')}}">
             </div>
             <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
+                <label for="password" class="form-label">Mật khẩu</label>
                 <input type="password" name="password" class="form-control" id="password" placeholder="Enter your password" >
             </div>
             <div class="mb-3">
-                <label for="confirmpassword" class="form-label">Confirm Password</label>
+                <label for="confirmpassword" class="form-label">Nhập lại mật khẩu</label>
                 <input type="password" name="confirmPassword" class="form-control" id="confirmpassword" placeholder="Enter your confirm password">
             </div>
             <input type="hidden" name="role_id" value="3">
             <div class="d-grid">
-                <button type="submit" class="btn btn-login btn-block">Register</button>
+                <button type="submit" class="btn btn-login btn-block">Đăng Ký</button>
             </div>
             <div class="text-center mt-3">
-                <a href="">Forgot Your Password?</a>
+                <a href="{{route('forgetPass')}}">Quên mật khẩu ?</a>
             </div>
         </form>
     </div>

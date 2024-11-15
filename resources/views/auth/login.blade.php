@@ -17,7 +17,7 @@
                 <button type="submit" class="btn btn-login btn-block">Đăng Nhập</button>
             </div>
             <div class="text-center mt-3">
-                <a href="">Quên mật khẩu ?</a>
+                <a href="{{route('forgetPass')}}">Quên mật khẩu ?</a>
             </div>
         </form>
     </div>
