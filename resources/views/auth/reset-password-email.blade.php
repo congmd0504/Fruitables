@@ -10,7 +10,7 @@
             display: inline-block;
             padding: 10px 20px;
             color: #fff;
-            background-color: #006aff;
+            background-color: #81c408;
             border-radius: 5px;
             text-decoration: none;
             font-weight: bold;
@@ -52,7 +52,7 @@
         
         <p>Bạn đã yêu cầu đặt lại mật khẩu cho tài khoản của mình trên hệ thống của chúng tôi. Để tiếp tục quá trình, vui lòng nhấp vào liên kết bên dưới:</p>
         
-        <a href="{{ route('password.reset.custom', $token) }}" style="color: white" class="btn">Đặt lại mật khẩu</a>
+        <a href="{{ route('passwordReset', $token) }}" style="color: white" class="btn">Đặt lại mật khẩu</a>
 
         <p><strong>Lưu ý quan trọng:</strong> Liên kết này chỉ có hiệu lực trong vòng 24 giờ kể từ khi bạn nhận được email này. Nếu bạn không thực hiện thao tác này, vui lòng bỏ qua email này và mật khẩu của bạn sẽ không thay đổi.</p>
 

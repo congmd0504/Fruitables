@@ -59,7 +59,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Tìm Kiếm Sản Phẩm</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route('client.shop.name')}}" method="POST"
+                <form action="{{ route('client.shop.name') }}" method="POST"
                     class="modal-body d-flex align-items-center">
                     @csrf
                     <div class="input-group w-75 mx-auto d-flex">

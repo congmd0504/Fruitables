@@ -60,8 +60,6 @@
                                 class="btn border border-secondary rounded-pill px-4 py-2 text-primary">
                                 <i class="fa fa-shopping-bag me-2 text-primary"></i> Thêm Vào Giỏ Hàng
                             </button>
-
-
                             <script>
                                 document.addEventListener('DOMContentLoaded', function() {
                                     // Lấy các nút và input số lượng

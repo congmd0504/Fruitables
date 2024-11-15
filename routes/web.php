@@ -7,6 +7,7 @@ use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\client\CartController;
 use App\Http\Controllers\client\ClientController;
+use App\Http\Middleware\CheckToken;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,39 +23,51 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('client.home.home');
-})->name('client.index');
-Route::get('contact',function (){
+})->name('client.index')->middleware('checkLogin');
+Route::get('contact', function () {
     return view('client.home.contact');
 })->name('contact');
-
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::resource('categories', CategoryController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('users', AuthAdminController::class);
-    Route::get('comments',[CommentController::class,'index'])->name('comments');
-    Route::get('comments/{id}',[CommentController::class,'show'])->name('comments.show');
-    Route::delete('comments/{comment}',[CommentController::class,'destroy'])->name('comments.destroy');
+Route::middleware(['checkAdmin'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::resource('categories', CategoryController::class);
+        Route::resource('products', ProductController::class);
+        Route::resource('users', AuthAdminController::class);
+        Route::get('comments', [CommentController::class, 'index'])->name('comments');
+        Route::get('comments/{id}', [CommentController::class, 'show'])->name('comments.show');
+        Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    });
 });
 
-
 Route::prefix('client')->name('client.')->group(function () {
-    Route::get('update/{user}',[AuthController::class,'getUpdate'])->name('getUpdate');
-    Route::put('update{user}',[AuthController::class,'update'])->name('update');
+    //Cập nhập thông tin acc
+    Route::get('update/{user}', [AuthController::class, 'getUpdate'])->name('getUpdate');
+    Route::put('update{user}', [AuthController::class, 'update'])->name('update');
 
-    Route::get('shop',[ClientController::class,'shop'])->name('shop');
-    Route::get('shop/{category}',[ClientController::class,'shop'])->name('shop.id');
-    Route::post('shop/key',[ClientController::class,'shop'])->name('shop.name');
-    Route::get('shop-detail/{product}',[ClientController::class,'shopDetail'])->name('shop-detail');
+    //Shop
+    Route::get('shop', [ClientController::class, 'shop'])->name('shop');
+    Route::get('shop/{category}', [ClientController::class, 'shop'])->name('shop.id');
+    Route::post('shop/key', [ClientController::class, 'shop'])->name('shop.name');
+    Route::get('shop-detail/{product}', [ClientController::class, 'shopDetail'])->name('shop-detail');
 
-    Route::post('comment',[ClientController::class,'postComment'])->name('postComment');
-
+   //Create comment
+    Route::post('comment', [ClientController::class, 'postComment'])->name('postComment')->middleware('checkUser');
+    
+    //Cart
     Route::resource('cart', CartController::class);
     Route::post('/cart/updateQuantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
 });
 
+//Account
+Route::get('auths/login', [AuthController::class, 'getLogin'])->name('getLogin');
+Route::post('auths/login', [AuthController::class, 'postLogin'])->name('postLogin');
+Route::get('auths/register', [AuthController::class, 'getRegister'])->name('getRegister');
+Route::post('auths/register', [AuthController::class, 'postRegister'])->name('postRegister');
+Route::get('auths/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('auths/login',[AuthController::class,'getLogin'])->name('getLogin');
-Route::post('auths/login',[AuthController::class,'postLogin'])->name('postLogin');
-Route::get('auths/register',[AuthController::class,'getRegister'])->name('getRegister');
-Route::post('auths/register',[AuthController::class,'postRegister'])->name('postRegister');
-Route::get('auths/logout',[AuthController::class,'logout'])->name('logout');
+Route::get('auths/forgetpass', function () {
+    return view('auth.forget-pass');
+})->name('forgetPass');
+Route::post('auths/forgetpass', [AuthController::class, 'postForgetPass'])->name('postForgetPass');
+Route::get('auths/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('passwordReset')->middleware('checkToken');
+;
+Route::put('reset-password/{token}', [AuthController::class, 'reset'])->name('passwordUpdate');

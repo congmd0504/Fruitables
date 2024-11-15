@@ -2,7 +2,7 @@
 @section('content')
 <div  class="login-container">
     <h2 class="text-center mb-4">Forget Password</h2>
-    <form action="{{ route('password.update.custom',$tokenData->token) }}" method="POST" >
+    <form action="{{ route('passwordUpdate',$tokenData->token) }}" method="POST" >
         @csrf
         @method('PUT')
         <div class="mb-3">
