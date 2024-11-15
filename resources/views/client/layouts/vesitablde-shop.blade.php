@@ -20,7 +20,7 @@
                 </a>
                 <button onclick="addCart({{ $product->id }}, {{ Auth::id() }})" type="button"
                     class="btn border border-secondary rounded-pill px-4 py-2 text-primary">
-                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add
+                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Mua
                 </button>
             </div>
     </div>
