@@ -90,7 +90,6 @@ class ProductController extends Controller
                 $product->update($data);
                 $tags = $request->input('tags', []);
                  $product->tags()->sync($tags);
-
             });
             return back()->with('success', 'Cập nhập sản phẩm thành công!');
         } catch (\Throwable $th) {

@@ -6,6 +6,7 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\client\CartController;
+use App\Http\Controllers\client\CheckOutController;
 use App\Http\Controllers\client\ClientController;
 use App\Http\Middleware\CheckToken;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,11 @@ Route::prefix('client')->name('client.')->group(function () {
     //Cart
     Route::resource('cart', CartController::class);
     Route::post('/cart/updateQuantity', [CartController::class, 'updateQuantity'])->name('cart.updateQuantity');
+
+    Route::get('checkout',[CheckOutController::class,'checkout'])->name('checkout');
+    Route::post('order',[CheckOutController::class,'order'])->name('order');
+    Route::get('comfirm',[CheckOutController::class,'comfirm'])->name('comfirm');
+       
 });
 
 //Account
@@ -71,3 +77,7 @@ Route::post('auths/forgetpass', [AuthController::class, 'postForgetPass'])->name
 Route::get('auths/reset-password/{token}', [AuthController::class, 'showResetForm'])->name('passwordReset')->middleware('checkToken');
 ;
 Route::put('reset-password/{token}', [AuthController::class, 'reset'])->name('passwordUpdate');
+Route::get('test',function(){
+    return view('client.cart.comfirm');
+});
+

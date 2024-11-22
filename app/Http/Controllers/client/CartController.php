@@ -16,7 +16,7 @@ class CartController extends Controller
     {
         $listCart = Cart::with('user', 'product')->where('user_id', Auth::id())->get();
         $tongdon = 0;
-        return view('client.home.cart', compact('listCart', 'tongdon'));
+        return view('client.cart.cart', compact('listCart', 'tongdon'));
     }
 
     /**
