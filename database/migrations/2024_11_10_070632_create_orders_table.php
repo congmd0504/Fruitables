@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->text('note');
-            $table->boolean('payment_method');
+            $table->boolean('payment_method')->comment("0:thanh toán sau khi nhận hàng; 1 :Thanh toán onlline");
+            $table->decimal('total');
             $table->foreignIdFor(StatusOrder::class)->constrained()->default(1);
             $table->timestamps();
         });

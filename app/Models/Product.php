@@ -30,4 +30,7 @@ class Product extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+    public function detailOrders(){
+        return $this->hasMany(DetailOrder::class);
+    }
 }

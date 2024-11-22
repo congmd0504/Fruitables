@@ -1,33 +1,33 @@
 @extends('client.index')
-
 @section('content')
     @php
         $tongdon = 0;
     @endphp
     <div class="container mt-5">
-        <h2 class="mb-4">Shopping Cart</h2>
-        <table class="table table-bordered">
-            <thead class="table-light">
-                <tr class="text-center table-success">
-                    <th scope="col">STT</th>
-                    <th scope="col">Product Image</th>
-                    <th scope="col">Product Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Actions</th>
+        <h2 class="mb-4">Giỏ hàng của bạn</h2>
+        <table class="table ">
+            <thead style="background-color: #81c408">
+                <tr class="text-center text-dark">
+                    <th scope="col">Hình ảnh</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Tổng </th>
+                    <th scope="col">Hành động</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($listCart as $index => $item)
                     <tr id="cart-{{ $item->id }}" class="text-center cart-item" data-id="{{ $item->id }}">
-                        <td>{{ $index + 1 }}</td>
-                        <td><img src="{{ Storage::url($item->product->image) }}" width="100" alt="Product Image"
-                                class="img-fluid"></td>
-                        <td>{{ $item->product->name }}</td>
-                        <td data-price="{{ $item->product->price }}" class="item-price">
-                            {{ number_format($item->product->price) }} vnđ</td>
-                        <td>
+                        <td class="align-middle">
+                            <img src="{{ Storage::url($item->product->image) }}" width="100" alt="Product Image"
+                                class="img-fluid">
+                        </td>
+                        <td class="align-middle">{{ $item->product->name }}</td>
+                        <td class="align-middle item-price" data-price="{{ $item->product->price }}">
+                            {{ number_format($item->product->price) }} vnđ
+                        </td>
+                        <td class="align-middle">
                             <div class="input-group d-inline-flex justify-content-center" style="width: 100px;">
                                 <button class="btn btn-sm btn-outline-secondary btn-minus" type="button"
                                     onclick="updateCartQuantity({{ $item->id }}, parseInt(this.nextElementSibling.value) - 1)">-</button>
@@ -38,10 +38,13 @@
                                     onclick="updateCartQuantity({{ $item->id }}, parseInt(this.previousElementSibling.value) + 1)">+</button>
                             </div>
                         </td>
-                        <td class="item-total">{{ number_format($item->product->price * $item->quantity) }} vnđ</td>
-                        <td>
-                            <button type="button" onclick="deleteCart({{ $item->id }})" class="btn btn-danger"><i
-                                    class="fa fa-trash"></i></button>
+                        <td class="align-middle item-total">
+                            {{ number_format($item->product->price * $item->quantity) }} vnđ
+                        </td>
+                        <td class="align-middle">
+                            <button type="button" onclick="deleteCart({{ $item->id }})" class="btn btn-danger">
+                                <i class="fa fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                     @php
@@ -50,12 +53,13 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="d-flex justify-content-end">
-            <h4>Total: <span id="cart-total">{{ number_format($tongdon) }} vnđ</span></h4>
+        <div>
+            
+            <h4><b>Tổng tiền</b> : <span id="cart-total">{{ number_format($tongdon) }} vnđ</span></h4>
         </div>
-        <div class="d-flex justify-content-end mt-3">
-            <button class="btn btn-primary">Checkout</button>
-        </div>
+        <a href="{{route('client.checkout')}}" class="d-flex justify-content-end mt-3">
+            <button class="btn btn-primary fs-4 text-light" style="width: 20% ;height: 50px;">Đặt Hàng </button>
+        </a>
     </div>
 @endsection
 @section('javascript')
@@ -131,7 +135,7 @@
                 success: function(response) {
                     $('#cart-' + cartItemId).remove();
                     updateCartTotal();
-                    $('#cartTotal').text(quantityCart-1 ); // Hiển thị tổng
+                    $('#cartTotal').text(quantityCart - 1); // Hiển thị tổng
                     toastr.success('Xóa thành công !');
                 },
                 error: function(xhr) {
@@ -139,7 +143,5 @@
                 }
             });
         }
-
-        
     </script>
 @endsection
