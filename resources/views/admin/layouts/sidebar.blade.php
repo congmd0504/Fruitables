@@ -1,10 +1,7 @@
 <div class="sidebar-logo">
     <!-- Logo Header -->
     <div class="logo-header" data-background-color="dark">
-        <a href="" class="logo">
-            <img src="{{ asset('assets/img/kaiadmin/logo_light.svg') }}" alt="navbar brand" class="navbar-brand"
-                height="20" />
-        </a>
+        <h2 class="fw-bold text-light">Fruitables</h2>
         <div class="nav-toggle">
             <button class="btn btn-toggle toggle-sidebar">
                 <i class="gg-menu-right"></i>
@@ -117,6 +114,29 @@
                         </li>
                     </ul>
                 </div>
+               
+            </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#base5">
+                    <i class="fa fa-folder"></i>
+                    <p>Đơn hàng</p>
+                    <span class="caret"></span>
+                </a>
+                <div class="collapse" id="base5">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="{{route('admin.orders.list')}}">
+                                <span class="sub-item">Đơn hàng chưa xác nhận</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.orders.index')}}">
+                                <span class="sub-item">Danh sách đơn hàng</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </li>
             <li class="nav-item">
                 <a class="mt-3" href="{{route('client.index')}}">

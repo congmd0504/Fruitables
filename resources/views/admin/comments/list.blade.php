@@ -49,59 +49,9 @@
                                         <td>{{ $product->name }}</td>
                                         <td>{{ $product->comments_count}}</td>
                                         <td>
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$index}}">
+                                            <a href="{{route('admin.comments.show',$product)}}">
                                                 <i title="Chi tiết" class="fa fa-folder-open"></i>
-                                              </button>
-
-                                            <div class="modal fade" id="exampleModal{{$index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog modal-xl">
-                                                  <div class="modal-content">
-                                                    <div class="modal-header">
-                                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Bình luận</h1>
-                                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body ">
-                                                        <div class="card-body">
-                                                            <table class="table table-bordered table-hover">
-                                                                <thead>
-                                                                    <tr class="text-center">
-                                                                        <th>STT</th>
-                                                                        <th>NgƯỜI BÌNH LUẬN</th>
-                                                                        <th>NỘI DUNG</th>
-                                                                        <th>Ngày bình luận</th>
-                                                                        <th>ACTION</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    @foreach ($product->comments as $index => $comment)
-                                                                        <tr class="text-center">
-                                                                            <td>{{ $index + 1 }}</td>
-                                                                            <td>{{ $comment->user->username }}</td>
-                                                                            <td>{{ $comment->content }}</td>
-                                                                            <td>{{ $comment->created_at->format('d-m-Y') }}</td>
-                                                                            <td>
-                                                                                <div class="form-button-action ">
-                                                                                    <form action="{{route('admin.comments.destroy',$comment)}}" method="POST">
-                                                                                        @csrf
-                                                                                        @method('DELETE')
-                                                                                        <button onclick="return confirm('Bạn có muốn xóa không ?')" type="submit" title="Xóa" class="btn btn-link btn-danger">
-                                                                                            <i class="fa fa-times"></i>
-                                                                                        </button>
-                                                                                    </form>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                    @endforeach
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                                                    </div>
-                                                  </div>
-                                                </div>
-                                              </div>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
