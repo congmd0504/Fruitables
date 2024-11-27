@@ -112,6 +112,11 @@
                                 <span class="sub-item">Danh sách bình luận</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{route('admin.comments.listReplyComment')}}">
+                                <span class="sub-item">Danh sách bình luận trả lời</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                

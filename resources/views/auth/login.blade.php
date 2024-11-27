@@ -1,5 +1,6 @@
 @extends('client.index')
 @section('content')
+
     <div  class="login-container">
         <h2 class="text-center mb-4">Đăng Nhập</h2>
         <form action="{{ route('postLogin')}}" method="POST">

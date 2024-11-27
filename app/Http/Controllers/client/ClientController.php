@@ -4,8 +4,11 @@ namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\StatusOrder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -39,5 +42,10 @@ class ClientController extends Controller
         return response()->json([
             'success' => 'Bình luận thành công! '
         ]);
+    }
+    public function history(){
+        $historys = Order::with('user','statusOrder','detailOrders')->where('user_id',Auth::id())->limit(10)->latest('id')->get();
+        // dd($historys);
+        return view('client.home.history',compact('historys'));
     }
 }

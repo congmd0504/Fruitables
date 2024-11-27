@@ -1,9 +1,17 @@
 @extends('client.index')
 @section('content')
+    <div class="container-fluid page-header py-5">
+        <h1 class="text-center text-white display-6">Giỏ hàng</h1>
+        <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+            <li class="breadcrumb-item"><a href="#">Trang</a></li>
+            <li class="breadcrumb-item active text-white">Giỏ Hàng</li>
+        </ol>
+    </div>
     @php
         $tongdon = 0;
     @endphp
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h2 class="mb-4">Giỏ hàng của bạn</h2>
         <table class="table ">
             <thead style="background-color: #81c408">
@@ -54,10 +62,10 @@
             </tbody>
         </table>
         <div>
-            
+
             <h4><b>Tổng tiền</b> : <span id="cart-total">{{ number_format($tongdon) }} vnđ</span></h4>
         </div>
-        <a href="{{route('client.checkout')}}" class="d-flex justify-content-end mt-3">
+        <a href="{{ route('client.checkout') }}" class="d-flex justify-content-end mt-3">
             <button class="btn btn-primary fs-4 text-light" style="width: 20% ;height: 50px;">Đặt Hàng </button>
         </a>
     </div>
