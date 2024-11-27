@@ -61,33 +61,39 @@
                                         <td>
                                             <!-- Button trigger modal -->
                                             <button title="trả lời" type="button" class="btn" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal{{$index}}">
+                                                data-bs-target="#exampleModal{{ $index }}">
                                                 <i class="fa fa-pen text-primary"></i>
                                             </button>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal{{$index}}" tabindex="-1"
+                                            <div class="modal fade" id="exampleModal{{ $index }}" tabindex="-1"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <form action="{{route('admin.comments.replyComment')}}" method="POST" class="modal-dialog modal-lg">
+                                                <form action="{{ route('admin.comments.replyComment') }}" method="POST"
+                                                    class="modal-dialog modal-lg">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Trả lời bình luận
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Trả lời bình
+                                                                luận
                                                             </h1>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <div  class="text-start">
+                                                            <div class="text-start">
                                                                 @csrf
-                                                                <input type="hidden" value="{{$comment->id}}" name="comment_id">
-                                                                <input type="hidden" value="{{Auth::id()}}" name="user_id">
+                                                                <input type="hidden" value="{{ $comment->id }}"
+                                                                    name="comment_id">
+                                                                <input type="hidden" value="{{ Auth::id() }}"
+                                                                    name="user_id">
                                                                 <div class="mb-3">
-                                                                    <label for="" class="" >Bình luận khách hàng</label>
-                                                                    <input type="text" class="form-control" value="{{$comment->content}}" disabled>
+                                                                    <label for="" class="">Bình luận khách
+                                                                        hàng</label>
+                                                                    <input type="text" class="form-control"
+                                                                        value="{{ $comment->content }}" disabled>
                                                                 </div>
                                                                 <div class="mb-3">
-                                                                    <label for="" class="" >Nội dung</label>
-                                                                   <textarea name="content" class="form-control" id="" cols="30" rows="3">
+                                                                    <label for="" class="">Nội dung</label>
+                                                                    <textarea name="content" class="form-control" id="" cols="30" rows="3">
 
                                                                    </textarea>
                                                                 </div>

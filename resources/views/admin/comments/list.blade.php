@@ -43,13 +43,15 @@
                             </thead>
                             <tbody>
                                 @foreach ($products as $index => $product)
-                                @if($product->comments_count == 0) @continue @endif
+                                    @if ($product->comments_count == 0)
+                                        @continue
+                                    @endif
                                     <tr class="text-center">
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $product->name }}</td>
-                                        <td>{{ $product->comments_count}}</td>
+                                        <td>{{ $product->comments_count }}</td>
                                         <td>
-                                            <a href="{{route('admin.comments.show',$product)}}">
+                                            <a href="{{ route('admin.comments.show', $product) }}">
                                                 <i title="Chi tiết" class="fa fa-folder-open"></i>
                                             </a>
                                         </td>

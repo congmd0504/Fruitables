@@ -79,6 +79,9 @@
                                 <i class="fa fa-user me-2"></i> {{ Auth::user()->username }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{route('client.history',Auth::user()->id)}}">
+                                    Lịch sử mua hàng
+                                </a>
                                 @if(Auth::user()->role_id != 3 )
                                 <a class="dropdown-item" href="{{route('admin.categories.index')}}">
                                     Trang quản trị
@@ -87,6 +90,7 @@
                                 <a class="dropdown-item" href="{{route('client.getUpdate',Auth::user()->id)}}">
                                     Cập nhập thông tin
                                 </a>
+                                
                                 <a class="dropdown-item" href="{{route('logout')}}">
                                     Đăng xuất
                                 </a>

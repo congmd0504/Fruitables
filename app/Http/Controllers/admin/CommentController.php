@@ -35,4 +35,18 @@ class CommentController extends Controller
         $comment->delete();
         return redirect()->back()->with('success','Xóa thành công !');
     }
+    public function listReplyComment(){
+        $listReply = ReplyComment::with('comment','user')->latest('id')->get();
+        // dd($listReply);
+        return view('admin.comments.listReply',compact('listReply'));
+    }
+    public function editReplyComment(Request $request,ReplyComment $replyComment){
+        $data = $request->only('content');
+        $replyComment->update($data);
+        return redirect()->route('admin.comments.listReplyComment')->with('success','Bạn đã cập nhập thành công !');
+    }
+    public function destroyReplyComment(ReplyComment $replyComment){
+        $replyComment->delete();
+        return redirect()->route('admin.comments.listReplyComment')->with('success','Bạn đã xóa thành công !');
+    }
 }

@@ -50,7 +50,6 @@ class CartController extends Controller
         }
         // Tính tổng số sản phẩm trong giỏ hàng của người dùng hiện tại
         $totalCart = Cart::where('user_id', $request['user_id'])->count();
-       
         // Trả về phản hồi JSON bao gồm tổng số sản phẩm trong giỏ hàng
         return response()->json([
             'totalCart' => $totalCart
@@ -96,7 +95,6 @@ class CartController extends Controller
                 'message' => 'Cập nhật số lượng thành công!',
             ]);
         }
-
         // Trả về phản hồi JSON lỗi nếu mục giỏ hàng không tồn tại
         return response()->json([
             'success' => false,

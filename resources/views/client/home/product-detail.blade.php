@@ -6,7 +6,7 @@
         <ol class="breadcrumb justify-content-center mb-0">
             <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
             <li class="breadcrumb-item"><a href="#">Trang</a></li>
-            <li class="breadcrumb-item active text-white">{{$product->name}}</li>
+            <li class="breadcrumb-item active text-white">{{ $product->name }}</li>
         </ol>
     </div>
     <!-- Single Page Header End -->
@@ -122,16 +122,31 @@
                                     <div id="comments-container">
                                         @if (count($product->comments) > 0)
                                             @foreach ($product->comments as $comment)
-                                                <div class="d-flex">
-                                                    <img src="{{ Storage::url($comment->user->image) }}"
-                                                        class="img-fluid rounded-circle p-3"
-                                                        style="width: 100px; height: 100px;" alt="">
-                                                    <div class="mt-4">
-                                                        <h5>{{ $comment->user->username }}</h5>
-                                                        <p>{{ $comment->content }}</p>
-                                                        <p style="font-size:11px; margin:-10px 0">
-                                                            {{ $comment->created_at }}</p>
+                                                <div>
+                                                    <div class="d-flex">
+                                                        <img src="{{ Storage::url($comment->user->image) }}"
+                                                            class="img-fluid rounded-circle p-3"
+                                                            style="width: 100px; height: 100px;" alt="">
+                                                        <div class="mt-4">
+                                                            <h5>{{ $comment->user->username }}</h5>
+                                                            <p>{{ $comment->content }}</p>
+                                                            <p style="font-size:11px; margin:-10px 0">
+                                                                {{ $comment->created_at }}</p>
+                                                        </div>
                                                     </div>
+                                                    @foreach ($comment->replyComments as $reply)
+                                                        <div class="d-flex ms-5">
+                                                            <img src="{{ Storage::url($reply->user->image) }}"
+                                                                class="img-fluid rounded-circle p-3"
+                                                                style="width:80px; height: 80px;" alt="">
+                                                            <div class="mt-2">
+                                                                <h6>{{ $reply->user->username }}</h6>
+                                                                <p style="font-size: 13px"> {{ $reply->content }}</p>
+                                                                <p style="font-size:10px; margin:-10px 0">
+                                                                    {{ $reply->created_at }}</p>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
                                                 </div>
                                                 <hr>
                                             @endforeach

@@ -56,7 +56,8 @@
                                 <div class="row g-4">
                                     @foreach ($allProduct as $product)
                                         <div class="col-md-6 col-lg-4 col-xl-3">
-                                            <a href="{{route('client.shop-detail',$product)}}" class="rounded position-relative fruite-item">
+                                            <a href="{{ route('client.shop-detail', $product) }}"
+                                                class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     <img style="max-height: 200px ;object-fit: cover;"
                                                         src="{{ Storage::url($product->image) }}"
@@ -97,7 +98,7 @@
                                         @continue
                                     @endif
                                     <div class="col-md-6 col-lg-4 col-xl-3">
-                                        <a href="{{route('client.shop-detail',$product)}}">
+                                        <a href="{{ route('client.shop-detail', $product) }}">
                                             <div class="rounded position-relative fruite-item">
                                                 <div class="fruite-img">
                                                     <img style="max-height: 200px ;object-fit: cover;"
