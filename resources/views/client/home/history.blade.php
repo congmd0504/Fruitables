@@ -84,7 +84,13 @@
                                 @foreach ($historys as $item)
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
@@ -106,33 +112,44 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             @foreach ($item->detailOrders as $order)
-                                                            <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
-                                                                class="p-3 mb-3">
-                                                                <div
-                                                                    class="d-flex justify-content-between align-items-center">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <img src="{{Storage::url($order->product->image)}}"
-                                                                            height="70" width="70" alt="Bánh bao"
-                                                                            class="rounded">
-                                                                        <div class="ms-3">
-                                                                            <h6 class="mb-1">{{$order->product->name}}</h6>
-                                                                            <span class="text-muted">Số lượng:
-                                                                                <strong>{{$order->quantity}}</strong></span>
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
                                                                         </div>
                                                                     </div>
-                                                                    <div>
-                                                                        <h6 class="text-danger mb-0">{{number_format($order->price)}}đ</h6>
-                                                                    </div>
                                                                 </div>
-                                                            </div>
                                                             @endforeach
-                                                            <h5>Tổng giá tiền : {{number_format($item->total)}} VNĐ</h5>
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
                                                         </div>
                                                         <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
                                                             <button type="button" class="btn btn-secondary"
-                                                                data-bs-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary">Save
-                                                                changes</button>
+                                                                data-bs-dismiss="modal">Đóng</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,7 +159,12 @@
                                 @endforeach
                             </tbody>
                         </table>
-
+                        <style>
+                            .pagination {
+                                display: flex;
+                            }
+                        </style>
+                        {{ $historys->links() }}
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"
                         tabindex="0">
@@ -163,11 +185,77 @@
                                     @endif
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button title="Chi tiết" type="button" class="btn"
+                                                data-bs-toggle="modal" data-bs-target="#exampleModal2{{ $item->id }}">
+                                                <i class="fa text-danger fa-folder-open"></i>
+
+                                            </button>
+                                            <div class="modal fade" id="exampleModal2{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết
+                                                                đơn hàng</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @foreach ($item->detailOrders as $order)
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -192,11 +280,77 @@
                                     @endif
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button title="Chi tiết" type="button" class="btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal3{{ $item->id }}">
+                                                <i class="fa text-danger fa-folder-open"></i>
+
+                                            </button>
+                                            <div class="modal fade" id="exampleModal3{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết
+                                                                đơn hàng</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @foreach ($item->detailOrders as $order)
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -221,11 +375,77 @@
                                     @endif
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button title="Chi tiết" type="button" class="btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal4{{ $item->id }}">
+                                                <i class="fa text-danger fa-folder-open"></i>
+
+                                            </button>
+                                            <div class="modal fade" id="exampleModal4{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết
+                                                                đơn hàng</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @foreach ($item->detailOrders as $order)
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -250,11 +470,77 @@
                                     @endif
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button title="Chi tiết" type="button" class="btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal5{{ $item->id }}">
+                                                <i class="fa text-danger fa-folder-open"></i>
+
+                                            </button>
+                                            <div class="modal fade" id="exampleModal5{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết
+                                                                đơn hàng</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @foreach ($item->detailOrders as $order)
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -279,11 +565,77 @@
                                     @endif
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button title="Chi tiết" type="button" class="btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal6{{ $item->id }}">
+                                                <i class="fa text-danger fa-folder-open"></i>
+
+                                            </button>
+                                            <div class="modal fade" id="exampleModal6{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết
+                                                                đơn hàng</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @foreach ($item->detailOrders as $order)
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -308,11 +660,77 @@
                                     @endif
                                     <tr class="text-center">
                                         <td class="fw-bold">{{ $item->id }}</td>
-                                        <td>{{ $item->statusOrder->name }}</td>
+                                        <td
+                                            class="@if ($item->status_order_id == 6) text-danger
+                                            @elseif ($item->status_order_id == 5)
+                                            text-primary
+                                        @else
+                                            text-info @endif">
+                                            {{ $item->statusOrder->name }}</td>
                                         <td>{{ $item->payment_method ? 'Thanh toán onlline' : 'Thanh toán khi nhận hàng' }}
                                         </td>
                                         <td>{{ $item->created_at->format('d-m-Y') }}</td>
-                                        <td></td>
+                                        <td>
+                                            <button title="Chi tiết" type="button" class="btn" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModal7  {{ $item->id }}">
+                                                <i class="fa text-danger fa-folder-open"></i>
+
+                                            </button>
+                                            <div class="modal fade" id="exampleModal7{{ $item->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Chi tiết
+                                                                đơn hàng</h1>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            @foreach ($item->detailOrders as $order)
+                                                                <div style="background-color: #f3f3f3; border-radius: 5px; border: 1px solid #e0e0e0;"
+                                                                    class="p-3 mb-3">
+                                                                    <div
+                                                                        class="d-flex justify-content-between align-items-center">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <img src="{{ Storage::url($order->product->image) }}"
+                                                                                height="70" width="70"
+                                                                                alt="Bánh bao" class="rounded">
+                                                                            <div class="ms-3">
+                                                                                <h6 class="mb-1">
+                                                                                    {{ $order->product->name }}</h6>
+                                                                                <span class="text-muted">Số lượng:
+                                                                                    <strong>{{ $order->quantity }}</strong></span>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h6 class="text-danger mb-0">
+                                                                                {{ number_format($order->price) }}đ</h6>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endforeach
+                                                            <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            @if ($item->status_order_id == 1)
+                                                                <form
+                                                                    action="{{ route('client.updateHistory', $item->id) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có muốn hủy đơn hàng này không?')"
+                                                                        class="btn btn-danger">Hủy đơn hàng</button>
+                                                                </form>
+                                                            @endif
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Đóng</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
