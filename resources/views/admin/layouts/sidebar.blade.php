@@ -144,6 +144,28 @@
 
             </li>
             <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#base6">
+                    <i class="fa fa-folder"></i>
+                    <p>Mã giảm giá</p>
+                    <span class="caret"></span>
+                </a>
+                <div class="collapse" id="base6">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="{{route('admin.discounts.index')}}">
+                                <span class="sub-item">Quản lý thông tin mã giảm giá</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.discounts.create')}}">
+                                <span class="sub-item">Tạo mã giảm giá</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </li>
+            <li class="nav-item">
                 <a class="mt-3" href="{{route('client.index')}}">
                     <i class="fa fa-backward"></i>
                     <p>Trang khách hàng</p>

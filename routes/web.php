@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\CategoryController;
 use App\Http\Controllers\admin\CommentController;
+use App\Http\Controllers\admin\DiscountController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\auth\AuthAdminController;
@@ -37,6 +38,7 @@ Route::middleware(['checkAdmin'])->group(function () {
         Route::resource('products', ProductController::class);
         Route::resource('users', AuthAdminController::class);
         Route::resource('orders', OrderController::class);
+        Route::resource('discounts',DiscountController::class);
         Route::get('listOrder',[OrderController::class,'list'])->name('orders.list');
 
         Route::get('comments', [CommentController::class, 'index'])->name('comments');
@@ -68,6 +70,7 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::post('order',[CheckOutController::class,'order'])->name('order');
     Route::get('comfirm',[CheckOutController::class,'comfirm'])->name('comfirm');
     Route::get('history',[ClientController::class,'history'])->name('history');
+    Route::patch('update/history/{id}',[ClientController::class,'updateHistory'])->name('updateHistory');
        
 });
 

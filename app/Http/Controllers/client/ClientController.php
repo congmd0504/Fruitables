@@ -44,8 +44,12 @@ class ClientController extends Controller
         ]);
     }
     public function history(){
-        $historys = Order::with('user','statusOrder','detailOrders')->where('user_id',Auth::id())->limit(10)->latest('id')->get();
+        $historys = Order::with('user','statusOrder','detailOrders')->where('user_id',Auth::id())->latest('id')->paginate(10);
         // dd($historys);
         return view('client.home.history',compact('historys'));
+    }
+    public function updateHistory($id){
+        Order::where('id', $id)->update(['status_order_id' => 6]);
+        return redirect()->route('client.history')->with('success','Hủy thành công ?');
     }
 }
