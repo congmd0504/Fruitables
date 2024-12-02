@@ -22,7 +22,7 @@ class DiscountRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|unique:discounts,|min:3',
+            'code' => 'required|unique:discounts|min:3',
             'discount' => 'required|integer|min:1',
             'quantity' => 'required|integer|min:1',
             'end_date' => 'required',
