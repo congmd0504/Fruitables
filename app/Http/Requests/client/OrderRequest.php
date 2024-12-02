@@ -30,7 +30,8 @@ class OrderRequest extends FormRequest
             'payment_method' => 'required',
             'product_id'=>'required',
             'price'=>'required',
-            'quantity'=>'required'
+            'quantity'=>'required',
+            'idDiscount'=> 'required'
         ];
     }
 }
