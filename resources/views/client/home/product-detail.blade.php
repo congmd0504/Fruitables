@@ -79,6 +79,9 @@
                                     <button class="nav-link border-white border-bottom-0" type="button" role="tab"
                                         id="nav-mission-tab" data-bs-toggle="tab" data-bs-target="#nav-mission"
                                         aria-controls="nav-mission" aria-selected="false">Bình luận</button>
+                                    <button class="nav-link border-white border-bottom-0" type="button" role="tab"
+                                        id="nav-review-tab" data-bs-toggle="tab" data-bs-target="#nav-review"
+                                        aria-controls="nav-review" aria-selected="false">Đánh giá</button>
                                 </div>
                             </nav>
                             <div class="tab-content mb-5">
@@ -106,7 +109,8 @@
                                                         <p class="mb-0">{{ $product->quantity }}</p>
                                                     </div>
                                                 </div>
-                                                <div class="row text-center align-items-center justify-content-center py-2">
+                                                <div
+                                                    class="row text-center align-items-center justify-content-center py-2">
                                                     <div class="col-6">
                                                         <p class="mb-0">Сheck</p>
                                                     </div>
@@ -118,7 +122,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="nav-mission" role="tabpanel" aria-labelledby="nav-mission-tab">
+
+                                <div class="tab-pane" id="nav-mission" role="tabpanel"
+                                    aria-labelledby="nav-mission-tab">
                                     <div id="comments-container">
                                         @if (count($product->comments) > 0)
                                             @foreach ($product->comments as $comment)
@@ -152,6 +158,34 @@
                                             @endforeach
                                         @endif
                                     </div>
+                                </div>
+                                <div class="tab-pane" id="nav-review" role="tabpanel" aria-labelledby="nav-review-tab">
+                                    <div class="mb-3">
+                                        @foreach ($product->reviews as $item)
+                                            <div class="card-body d-flex">
+                                                <div class="me-3">
+                                                    <img src="{{ Storage::url($item->user->image) }}" alt="User Avatar"
+                                                        class="rounded-circle" width="50" height="50" />
+                                                </div>
+                                                <div class="border p-3" style="width: 100%">
+                                                    <h5 class="card-title mb-1">{{ $item->user->username }}</h5>
+                                                    <div class="rating">
+                                                        @for ($i = 1; $i <= 5; $i++)
+                                                            @if ($i <= $item->star)
+                                                                <i class="bi bi-star-fill text-warning"></i>
+                                                            @else
+                                                                <i class="bi bi-star text-warning"></i>
+                                                            @endif
+                                                        @endfor
+                                                    </div>
+                                                    <p class="text-muted mb-2" style="font-size: 0.7rem;">
+                                                        {{ $item->created_at->format('d-m-Y') }}</p>
+                                                    <p class="card-text">{{ $item->content }}</p>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <hr>
                                 </div>
                             </div>
                         </div>

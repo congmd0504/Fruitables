@@ -59,7 +59,7 @@ class CheckOutController extends Controller
             ];
             $product = Product::find($product);
             $product->update(['quantity'=>$product->quantity - $DetailQuantity[$index]]);
-        }
+            }
         DetailOrder::insert($dataDetail);
         Cart::where('user_id', Auth::id())->delete();
         $orderDetails = DetailOrder::with('order', 'product')->where('order_id', $order->id)->get();
