@@ -613,6 +613,9 @@
                                                                                 {{ number_format($order->price) }}đ</h6>
                                                                         </div>
                                                                     </div>
+                                                                    <div class="text-end">
+                                                                        <a href="{{route('client.review',$order->product_id)}}"  class="btn btn-success " >Viết đánh giá !</a>
+                                                                    </div>
                                                                 </div>
                                                             @endforeach
                                                             <h5>Tổng giá tiền : {{ number_format($item->total) }} VNĐ</h5>

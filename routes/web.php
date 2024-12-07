@@ -69,8 +69,12 @@ Route::prefix('client')->name('client.')->group(function () {
     Route::get('checkout',[CheckOutController::class,'checkout'])->name('checkout');
     Route::post('order',[CheckOutController::class,'order'])->name('order');
     Route::get('comfirm',[CheckOutController::class,'comfirm'])->name('comfirm');
+
     Route::get('history',[ClientController::class,'history'])->name('history');
     Route::patch('update/history/{id}',[ClientController::class,'updateHistory'])->name('updateHistory');
+
+    Route::get('review/{id}',[ClientController::class,'review'])->name('review');
+    Route::post('postReview',[ClientController::class,'postReview'])->name('postReview');
        
 });
 
@@ -88,6 +92,6 @@ Route::get('auths/reset-password/{token}', [AuthController::class, 'showResetFor
 ;
 Route::put('reset-password/{token}', [AuthController::class, 'reset'])->name('passwordUpdate');
 Route::get('test',function(){
-    return view('client.home.history');
+    return view('client.home.review');
 });
 
