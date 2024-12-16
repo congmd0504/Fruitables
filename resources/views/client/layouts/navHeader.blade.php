@@ -83,7 +83,7 @@
                                     Lịch sử mua hàng
                                 </a>
                                 @if(Auth::user()->role_id != 3 )
-                                <a class="dropdown-item" href="{{route('admin.categories.index')}}">
+                                <a class="dropdown-item" href="{{route('admin.index')}}">
                                     Trang quản trị
                                 </a>
                                 @endif

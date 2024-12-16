@@ -5,6 +5,7 @@ use App\Http\Controllers\admin\CommentController;
 use App\Http\Controllers\admin\DiscountController;
 use App\Http\Controllers\admin\OrderController;
 use App\Http\Controllers\admin\ProductController;
+use App\Http\Controllers\admin\StaticsController;
 use App\Http\Controllers\auth\AuthAdminController;
 use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\client\CartController;
@@ -34,11 +35,19 @@ Route::get('contact', function () {
 
 Route::middleware(['checkAdmin'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('index',[StaticsController::class,'index'])->name('index');
+        Route::get('revenue',[StaticsController::class,'revenue'])->name('revenue');
+        Route::get('productSales',[StaticsController::class,'productSales'])->name('productSales');
+        Route::get('statusOrder',[StaticsController::class,'statusOrder'])->name('statusOrder');
+        Route::get('topProduct',[StaticsController::class,'topProduct'])->name('topProduct');
+
         Route::resource('categories', CategoryController::class);
         Route::resource('products', ProductController::class);
         Route::resource('users', AuthAdminController::class);
         Route::resource('orders', OrderController::class);
         Route::resource('discounts',DiscountController::class);
+
+
         Route::get('listOrder',[OrderController::class,'list'])->name('orders.list');
 
         Route::get('comments', [CommentController::class, 'index'])->name('comments');
@@ -92,6 +101,6 @@ Route::get('auths/reset-password/{token}', [AuthController::class, 'showResetFor
 ;
 Route::put('reset-password/{token}', [AuthController::class, 'reset'])->name('passwordUpdate');
 Route::get('test',function(){
-    return view('client.home.review');
+    return view('admin.index');
 });
 

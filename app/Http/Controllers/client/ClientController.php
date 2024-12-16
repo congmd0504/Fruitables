@@ -30,6 +30,7 @@ class ClientController extends Controller
     {
         $product::with('category', 'comments','reviews')->first();
         $hotProducts = Product::with('category', 'tags')->latest('id')->take(6)->get();
+        $product->increment('view');
         return view('client.home.product-detail', compact('product', 'hotProducts'));
     }
     public function postComment(Request $request)

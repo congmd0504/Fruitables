@@ -20,10 +20,47 @@
     <div class="sidebar-content">
         <ul class="nav nav-secondary">
             <li class="nav-item active">
-                <a href="">
+                <a href="{{route('admin.index')}}">
                     <i class="fas fa-home"></i>
                     <p>Statistical</p>
                 </a>
+            </li>
+            <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                    <i class="fa fa-ellipsis-h"></i>
+                </span>
+                <h4 class="text-section">Thống kê</h4>
+            </li>
+            <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#base7">
+                    <i class="fa fa-folder"></i>
+                    <p>Thống kê</p>
+                    <span class="caret"></span>
+                </a>
+                <div class="collapse" id="base7">
+                    <ul class="nav nav-collapse">
+                        <li>
+                            <a href="{{route('admin.revenue')}}">
+                                <span class="sub-item">Doanh thu</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.productSales')}}">
+                                <span class="sub-item">Sản phẩm bán ra</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.statusOrder')}}">
+                                <span class="sub-item">Tính trạng đơn hàng</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{route('admin.topProduct')}}">
+                                <span class="sub-item">Top sản phẩm</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
 
             </li>
             <li class="nav-section">
@@ -163,8 +200,8 @@
                         </li>
                     </ul>
                 </div>
-
             </li>
+            
             <li class="nav-item">
                 <a class="mt-3" href="{{route('client.index')}}">
                     <i class="fa fa-backward"></i>
